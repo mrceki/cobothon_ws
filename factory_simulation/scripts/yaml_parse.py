@@ -22,7 +22,7 @@ def parser_ch1(yaml_path: str):
             raw = yaml.safe_load(stream)
             box_locations = []
             for i in range(8):
-                box_locations.append(raw['box_links'][i][2::1])
+                box_locations.append(raw['box_links'][i][::1])
             
             return(box_locations)
         except yaml.YAMLError as exc:

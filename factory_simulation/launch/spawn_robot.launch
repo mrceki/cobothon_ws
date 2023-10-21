@@ -11,6 +11,6 @@
   <param name="robot_description" command="$(find xacro)/xacro --inorder $(find robot_description)/urdf/orion5_main.xacro"/>
   <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" respawn="false" 
         args="-urdf -model orion5 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -param robot_description"/>
-
+  <node pkg="factory_similation" type="ch1_add_box_collision.py" name="box" output="screen" launch-prefix="sudo -S"/>			
 
 </launch>
