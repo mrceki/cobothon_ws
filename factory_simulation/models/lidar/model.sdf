@@ -37,8 +37,8 @@
             </horizontal>
           </scan>
           <range>
-            <min>0.06</min> <!-- do not change: use min_distance (below) for realistic behavior (smaller values cause issues) -->
-            <max>35</max>   <!-- do not change: use min_distance (below) for realistic behavior (bigger values cause issues) -->
+            <min_distance>0.06</min_distance> <!-- do not change: use min_distance (below) for realistic behavior (smaller values cause issues) -->
+            <max>1</max>   <!-- do not change: use min_distance (below) for realistic behavior (bigger values cause issues) -->
             <resolution>0.01</resolution>
           </range>
           <noise>
