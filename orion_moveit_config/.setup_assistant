@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: robot_description
+    relative_path: urdf/orion5_main.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/orion5.srdf
+  CONFIG:
+    author_name: Cenk Cetin
+    author_email: cenkcetix@gmail.com
+    generated_timestamp: 1697878560
