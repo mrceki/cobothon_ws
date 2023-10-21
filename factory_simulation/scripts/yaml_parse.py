@@ -1,5 +1,5 @@
 # This script contains functions for parsing .yaml configuration
-# files. Functions have .yaml file location as input arguments,
+# files. Functions have .yaml file relative location as input arguments,
 # and return necessary data for corresponding tasks 
 
 # parser_ch1() : For chapter 1, returns center locations of boxes 
@@ -17,7 +17,7 @@
 import yaml
 
 def parser_ch1(yaml_path: str):
-    with open("../"+yaml_path, "r") as stream:
+    with open(yaml_path, "r") as stream:
         try:
             raw = yaml.safe_load(stream)
             box_locations = []
@@ -29,7 +29,7 @@ def parser_ch1(yaml_path: str):
             return(exc)
 
 def parser_ch2(yaml_path: str):
-    with open("../"+yaml_path, "r") as stream:
+    with open(yaml_path, "r") as stream:
         try:
             raw = yaml.safe_load(stream)
             data = raw['chapter_2']
