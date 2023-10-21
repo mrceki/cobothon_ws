@@ -1,0 +1,26 @@
+box_links:
+# - [model_name, link_name, x_center_pos, y_center_pos, z_center_pos]
+  - ["unit_box1", "link", -1.2, 0.5, 0.218]
+  - ["unit_box2", "link", -1.36, 0.5, 0.218]
+  - ["unit_box3", "link", -1.52, 0.5, 0.218]
+  - ["unit_box4", "link", -1.68, 0.5, 0.218]
+  - ["unit_box5", "link", -1.2, 0.66, 0.218]
+  - ["unit_box6", "link", -1.36, 0.66, 0.218]
+  - ["unit_box7", "link", -1.52, 0.66, 0.218]
+  - ["unit_box8", "link", -1.68, 0.66, 0.218]
+
+conveyor_2:
+  spawn_count: 99
+  spawn_interval: 22
+  spawn_box_location: [0, 0.13, 0.9]   # x, y, z coordinates
+
+conveyor_3:
+  spawn_count: 99
+  spawn_interval: 18
+  spawn_box_location: [0, -0.36, 0.9]
+
+chapter_2:
+  first_box_location: [-1.36, 0.5, 0.218]
+  box_unit_x_columns: 3
+  box_unit_y_columns: 3
+  box_unit_height: 3

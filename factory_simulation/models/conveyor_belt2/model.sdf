@@ -1,0 +1,92 @@
+<?xml version="1.0" ?>
+
+<sdf version="1.4">
+
+    <model name="conveyor_belt2">
+
+        <model name="conveyorbelt_fixed">
+
+            <static>true</static>
+
+            <link name="belt_visual">
+                <visual name="visual">
+                    <geometry>
+                        <mesh>
+                            <scale>1 1 1</scale>
+                            <uri>model://conveyor_belt2/meshes/conveyor_belt.dae</uri>
+                        </mesh>
+                    </geometry>
+                </visual>
+                <collision name="collision">
+                    <origin xyz="0.0 0.0 0" rpy="0.0 0.0 0.0"/>
+                    <geometry>
+                        <mesh>
+                            <scale>1 1 1</scale>
+                            <uri>model://conveyor_belt2/meshes/conveyor_belt.dae</uri>
+                        </mesh>
+                    </geometry>
+                </collision>
+            </link>
+
+        </model>
+
+        <model name="conveyorbelt_moving">
+
+            <allow_auto_disable>0</allow_auto_disable>
+            <static>false</static>
+
+            <pose>0 0 0.741 0 0 0.0</pose>
+
+            <link name="belt_moving">
+                <inertial>
+                    <mass>200.0</mass>
+                    <inertia>
+                        <ixx>0.0</ixx>
+                        <ixy>0.0</ixy>
+                        <ixz>0.0</ixz>
+                        <iyy>0.0</iyy>
+                        <iyz>0.0</iyz>
+                        <izz>0.0</izz>
+                    </inertia>
+                </inertial>
+                <collision name="belt_collision">
+                    <origin xyz="0 -0.8 0" rpy="0 0 0" />
+                    <geometry>
+                        <box>
+                            <size>0.425 0.9 0.00001</size>
+                        </box>
+                    </geometry>
+                    <surface>
+                        <friction>
+                            <ode>
+                                <mu>1000.0</mu>
+                                <mu2>1000.0</mu2>
+                            </ode>
+                            <torsional>
+                                <coefficient>1000.0</coefficient>
+                                <patch_radius>0.1</patch_radius>
+                            </torsional>
+                        </friction>
+                    </surface>
+                </collision>
+            </link>
+
+        </model>
+
+        <joint name="belt_joint" type="prismatic">
+            <parent>conveyorbelt_fixed::belt_visual</parent>
+            <child>conveyorbelt_moving::belt_moving</child>
+            <axis>
+                <xyz>0 1 0</xyz>
+                <limit>
+                    <lower>0.0</lower>
+                    <upper>1.0</upper>
+                    <effort>1000</effort>
+                    <velocity>1000</velocity>
+                </limit>
+            </axis>
+        </joint>
+ 
+    </model>
+
+</sdf>

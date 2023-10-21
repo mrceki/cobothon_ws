@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="gazebo_control">
+
+    <!-- Gazebo Colors -->
+    <gazebo reference="base_link">
+      <material>Gazebo/SkyBlue</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+      <gravity>true</gravity>
+    </gazebo>
+    <gazebo reference="L1">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="L2">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="L3">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="L4">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="L5">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="L6">
+      <material>Gazebo/SkyBlue</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+    <gazebo reference="gripper_link">
+      <material>Gazebo/DarkGrey</material>
+      <mu1>0.2</mu1>
+      <mu2>0.2</mu2>
+      <selfCollide>true</selfCollide>
+    </gazebo>
+
+
+  </xacro:macro>
+</robot>

@@ -1,0 +1,13 @@
+material mcfly_sheet
+{
+  technique
+  {
+    pass
+    {
+      texture_unit
+      {
+        texture mcfly_logo.png
+      }
+    }
+  }
+}

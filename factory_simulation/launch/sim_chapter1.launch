@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Loading parameters from config yaml -->
+  <rosparam file="$(find factory_simulation)/config/box_models_links.yaml" command="load" />
+
+  <!-- Adding factory object models to gazebo environment -->
+  <env name="GAZEBO_MODEL_PATH" value="${GAZEBO_MODEL_PATH}:$(find factory_simulation)/models"/>
+  <env name="GAZEBO_RESOURCE_PATH" value="${GAZEBO_RESOURCE_PATH}:$(find factory_simulation)/models"/>
+
+  <!-- launching gazebo  --> 
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find factory_simulation)/worlds/factory_chapter1.world"/>
+    <arg name="paused" value="false"/>
+    <arg name="gui" value="true"/> 
+  </include>
+
+</launch>

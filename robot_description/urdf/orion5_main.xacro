@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://wiki.ros.org/xacro" name="orion5">
+
+   <xacro:include filename="$(find robot_description)/urdf/orion5_arm.xacro"/>
+   <xacro:include filename="$(find robot_description)/urdf/gripper.xacro"/>
+   <xacro:include filename="$(find robot_description)/urdf/transmissions.xacro"/>
+   <xacro:include filename="$(find robot_description)/urdf/gazebo_control.xacro"/>
+
+   <xacro:orion5_arm />
+   <xacro:gripper />
+   <xacro:transmissions />
+   <xacro:gazebo_control />
+
+</robot>

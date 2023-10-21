@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <model name="mcfly_sheet">
+    <static>true</static>
+    <link name="mcfly_sheet_link">
+      <!-- <collision name="collision">
+        <geometry>
+          <plane>
+            <normal>0 0 1</normal>
+            <size>6 2</size>
+          </plane>
+        </geometry>
+      </collision> -->
+      <visual name="mcfly_sheet_visual">
+        <cast_shadows>false</cast_shadows>
+        <geometry>
+	        <plane>
+            <normal>0 0 1</normal>
+            <size>6 2</size>
+          </plane>
+        </geometry>
+	      <material>
+          <script>
+            <uri>model://mcfly_sheet/materials/scripts</uri>
+            <uri>model://mcfly_sheet/materials/textures</uri>
+            <name>mcfly_sheet</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

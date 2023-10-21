@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- spawning robot  --> 
+  <arg name="x_pos" default="-1.5"/>
+  <arg name="y_pos" default="0"/>
+  <arg name="z_pos" default="0.5"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find robot_description)/urdf/orion5_main.xacro"/>
+  <node pkg="gazebo_ros" type="spawn_model" name="spawn_urdf" respawn="false" 
+        args="-urdf -model orion5 -x $(arg x_pos) -y $(arg y_pos) -z $(arg z_pos) -R $(arg roll) -P $(arg pitch) -Y $(arg yaw) -param robot_description"/>
+
+
+</launch>

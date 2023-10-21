@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="gripper">
+
+    <joint name="gripper_joint" type="fixed">
+      <parent link="L6" />
+      <child link="gripper_link" />
+      <origin rpy="3.14 0 3.14" xyz="0 0 0.04" />
+    </joint>
+
+    <link name="gripper_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="-0.06 -0.06 -0.06" />
+        <geometry>
+          <mesh filename="package://robot_description/meshes/gripper/vacuum.STL" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <material name="black">
+          <color rgba="0 0 0 1.0" />
+        </material>
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="-0.06 -0.06 -0.06" />
+        <geometry>
+          <mesh filename="package://robot_description/meshes/gripper/vacuum.STL" scale="0.001 0.001 0.001"/>
+        </geometry>
+      </collision>
+      <inertial>
+        <mass value="2.0" />
+        <origin rpy="0 0 0" xyz="0 0 0" />
+        <inertia ixx="0.00443333156" ixy="0.0" ixz="0.0" iyy="0.00443333156" iyz="0.0" izz="0.0072" />
+      </inertial>
+    </link>
+
+    <!-- TCP link -->
+    <link name="tcp_link" />
+
+    <joint name="tcp_joint" type="fixed">
+      <parent link="gripper_link" />
+      <child link="tcp_link" />
+      <origin rpy="-3.14 0 0" xyz="0 0 -0.06" />
+    </joint>
+
+  </xacro:macro>
+</robot>

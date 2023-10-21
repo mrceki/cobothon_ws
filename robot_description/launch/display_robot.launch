@@ -1,0 +1,11 @@
+<launch>
+
+    <param name="robot_description" command="$(find xacro)/xacro --inorder $(find robot_description)/urdf/orion5_main.xacro"/>
+
+    <node name="RSP" pkg="robot_state_publisher" type="robot_state_publisher" output="screen"/>
+    <node name="JSP_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" output="screen"/>
+
+    <node name="rviz" pkg="rviz" type="rviz" args="-d $(find robot_description)/rviz/display.rviz"/>
+  
+</launch>
+  

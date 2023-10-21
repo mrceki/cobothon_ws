@@ -1,0 +1,397 @@
+<?xml version="1.0"?>
+
+<robot xmlns:xacro="http://wiki.ros.org/xacro">
+
+  <xacro:macro name="orion5_arm">
+
+    <material name="black">
+      <color rgba="0.2 0.2 0.2 1.0"/>
+    </material>
+    <material name="gray">
+      <color rgba="0.6 0.6 0.6 1.0"/>
+    </material>
+    <material name="blue">
+      <color rgba="0.1 0.5 0.7 1.0"/>
+    </material>
+  
+  
+    <link name="world"/>
+  
+    <joint name="world_fixed_joint" type="fixed">
+      <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+      <parent link="world" />
+      <child link="base_link" />
+    </joint>
+  
+    <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="9.21255223397839E-07 -1.79280775157765E-06 0.024815226974079"
+        rpy="0 0 0" />
+      <mass
+        value="0.769889098895433" />
+      <inertia
+        ixx="0.00118316322664961"
+        ixy="1.14774534712335E-08"
+        ixz="-2.43710987071992E-10"
+        iyy="0.001183242751309"
+        iyz="1.83744059910972E-10"
+        izz="0.00198318001699658" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/base_link.STL" />
+      </geometry>
+      <material
+        name="blue"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="L1">
+    <inertial>
+      <origin
+        xyz="0.0103127600446312 2.12729023838594E-06 0.0644758348429013"
+        rpy="0 0 0" />
+      <mass
+        value="4.7865392773478" />
+      <inertia
+        ixx="0.0101873519511181"
+        ixy="-4.72148313658262E-09"
+        ixz="-0.000588650779689266"
+        iyy="0.0114905065233776"
+        iyz="-2.06767262963085E-08"
+        izz="0.0108370720789659" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L1.STL" />
+      </geometry>
+      <material
+        name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J1"
+    type="revolute">
+    <origin
+      xyz="0 0 0.055"
+      rpy="0 0 1.57" />
+    <parent
+      link="base_link" />
+    <child
+      link="L1" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="200"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="L2">
+    <inertial>
+      <origin
+        xyz="-2.59965993875612E-07 0.119821198591517 0.0651559418461157"
+        rpy="0 0 0" />
+      <mass
+        value="8.30151552015886" />
+      <inertia
+        ixx="0.0328486452992198"
+        ixy="1.03654727361315E-08"
+        ixz="2.40742068996585E-08"
+        iyy="0.0150283825082022"
+        iyz="-0.000501441738539127"
+        izz="0.032101333211442" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L2.STL" />
+      </geometry>
+      <material
+        name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J2"
+    type="revolute">
+    <origin
+      xyz="0.076 0 0.066"
+      rpy="1.5708 0 1.5708" />
+    <parent
+      link="L1" />
+    <child
+      link="L2" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="200"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="L3">
+    <inertial>
+      <origin
+        xyz="8.0156E-08 -0.13917 0.058933"
+        rpy="0 0 0" />
+      <mass
+        value="4.1211" />
+      <inertia
+        ixx="0.017469"
+        ixy="-6.5147E-10"
+        ixz="1.0147E-08"
+        iyy="0.0044278"
+        iyz="0.00075596"
+        izz="0.01684" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L3.STL" />
+      </geometry>
+      <material
+        name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J3"
+    type="revolute">
+    <origin
+      xyz="0 0.421 0.01"
+      rpy="3.1416 0 0" />
+    <parent
+      link="L2" />
+    <child
+      link="L3" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="200"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="L4">
+    <inertial>
+      <origin
+        xyz="-2.1724E-07 0.0023928 0.046823"
+        rpy="0 0 0" />
+      <mass
+        value="0.54999" />
+      <inertia
+        ixx="0.00061299"
+        ixy="-1.2312E-09"
+        ixz="-4.5565E-09"
+        iyy="0.00054583"
+        iyz="-3.9716E-05"
+        izz="0.00054518" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L4.STL" />
+      </geometry>
+      <material
+        name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J4"
+    type="revolute">
+    <origin
+      xyz="0 -0.427 0.019"
+      rpy="3.1416 0 0" />
+    <parent
+      link="L3" />
+    <child
+      link="L4" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="200"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="L5">
+    <inertial>
+      <origin
+        xyz="0.0023928 -2.1726E-07 -0.046823"
+        rpy="0 0 0" />
+      <mass
+        value="0.54999" />
+      <inertia
+        ixx="0.00054583"
+        ixy="-1.2312E-09"
+        ixz="3.9716E-05"
+        iyy="0.00061299"
+        iyz="4.5567E-09"
+        izz="0.00054518" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L5.STL" />
+      </geometry>
+      <material
+        name="black"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J5"
+    type="revolute">
+    <origin
+      xyz="0 0.051 0.053"
+      rpy="1.5708 -1.5708 0" />
+    <parent
+      link="L4" />
+    <child
+      link="L5" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="200"
+      velocity="3.14" />
+  </joint>
+  <link
+    name="L6">
+    <inertial>
+      <origin
+        xyz="-7.0636E-06 -0.00050194 0.018628"
+        rpy="0 0 0" />
+      <mass
+        value="0.17983" />
+      <inertia
+        ixx="9.0912E-05"
+        ixy="2.9828E-08"
+        ixz="2.376E-08"
+        iyy="9.1652E-05"
+        iyz="-4.4464E-08"
+        izz="0.00014028" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L6.STL" />
+      </geometry>
+      <material
+        name="blue"/>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://robot_description/meshes/orion5/L6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="J6"
+    type="revolute">
+    <origin
+      xyz="0.051 0 -0.053"
+      rpy="-1.5708 0 -1.5708" />
+    <parent
+      link="L5" />
+    <child
+      link="L6" />
+    <axis
+      xyz="0 0 1" />
+    <limit
+      lower="-3.14"
+      upper="3.14"
+      effort="200"
+      velocity="3.14" />
+  </joint>
+
+    
+
+  </xacro:macro>
+</robot>
