@@ -6,6 +6,6 @@
 
   <!-- Load the controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/orion_arm_controller" args="joint_state_controller orion_arm_controller"/>
+    output="screen" args="joint_state_controller orion_arm_controller"/>
 
 </launch>
