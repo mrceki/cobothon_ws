@@ -15,6 +15,9 @@ namespace gazebo
   GazeboRosLinkAttacher::GazeboRosLinkAttacher() :
     nh_("link_attacher_node")
   {
+    std::vector<fixedJoint> vect;
+    this->detach_vector = vect;
+    this->beforePhysicsUpdateConnection = event::Events::ConnectBeforePhysicsUpdate(std::bind(&GazeboRosLinkAttacher::OnUpdate, this));
   }
 
 
@@ -46,9 +49,19 @@ namespace gazebo
                                      std::string model2, std::string link2)
   {
 
-    // always create new joint and do not use older ones as it leads to 
-    // weird behaviour in Gazebo
+    // look for any previous instance of the joint first.
+    // if we try to create a joint in between two links
+    // more than once (even deleting any reference to the first one)
+    // gazebo hangs/crashes
     fixedJoint j;
+    if(this->getJoint(model1, link1, model2, link2, j)){
+        ROS_INFO_STREAM("Joint already existed, reusing it.");
+        j.joint->Attach(j.l1, j.l2);
+        return true;
+    }
+    else{
+        ROS_INFO_STREAM("Creating new joint.");
+    }
     j.model1 = model1;
     j.link1 = link1;
     j.model2 = model2;
@@ -138,16 +151,31 @@ namespace gazebo
   bool GazeboRosLinkAttacher::detach(std::string model1, std::string link1,
                                      std::string model2, std::string link2)
   {
-    // search for the instance of joint and do detach
-    for (auto it = joints.begin(); it != joints.end(); ++it) {
-      if ((it->model1.compare(model1) == 0) && (it->model2.compare(model2) == 0) &&
-          (it->link1.compare(link1) == 0) && (it->link2.compare(link2) == 0)) {
-        it->joint->Detach();
-        joints.erase(it);
-        return true;
+      // search for the instance of joint and do detach
+      fixedJoint j;
+      if(this->getJoint(model1, link1, model2, link2, j)){
+          this->detach_vector.push_back(j);
+          ROS_INFO_STREAM("Detach joint request pushed in the detach vector");
+          return true;
       }
+
+    return false;
+  }
+
+  bool GazeboRosLinkAttacher::getJoint(std::string model1, std::string link1,
+                                       std::string model2, std::string link2,
+                                       fixedJoint &joint){
+    fixedJoint j;
+    for(std::vector<fixedJoint>::iterator it = this->joints.begin(); it != this->joints.end(); ++it){
+        j = *it;
+        if ((j.model1.compare(model1) == 0) && (j.model2.compare(model2) == 0)
+                && (j.link1.compare(link1) == 0) && (j.link2.compare(link2) == 0)){
+            joint = j;
+            return true;
+        }
     }
     return false;
+
   }
 
   bool GazeboRosLinkAttacher::attach_callback(gazebo_ros_link_attacher::Attach::Request &req,
@@ -186,4 +214,24 @@ namespace gazebo
       return true;
   }
 
-}
+  // thanks to https://answers.gazebosim.org/question/12118/intermittent-segmentation-fault-possibly-by-custom-worldplugin-attaching-and-detaching-child/?answer=24271#post-id-24271
+  void GazeboRosLinkAttacher::OnUpdate()
+  {
+    if(!this->detach_vector.empty())
+    {
+      ROS_INFO_STREAM("Received before physics update callback... Detaching joints");
+      std::vector<fixedJoint>::iterator it;
+      it = this->detach_vector.begin();
+      fixedJoint j;
+      while (it != this->detach_vector.end())
+      {
+        j = *it;
+        j.joint->Detach();
+        ROS_INFO_STREAM("Joint detached !");
+        ++it;
+      }
+      detach_vector.clear();
+    }
+  }
+
+} 
