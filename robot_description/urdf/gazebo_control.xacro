@@ -54,7 +54,11 @@
       <mu2>0.2</mu2>
       <selfCollide>true</selfCollide>
     </gazebo>
-
-
+    <gazebo>
+      <plugin name="ros_control" filename="libgazebo_ros_control.so">
+        <!--robotNamespace>/</robotNamespace-->
+        <!--robotSimType>gazebo_ros_control/DefaultRobotHWSim</robotSimType-->
+      </plugin>
+     </gazebo>
   </xacro:macro>
 </robot>
