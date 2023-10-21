@@ -84,7 +84,7 @@ if __name__ == '__main__':
     rospy.init_node('move_to_object_poses', anonymous=True)
     moveit_commander.roscpp_initialize(sys.argv)
     rospy.loginfo("Creating ServiceProxy to /link_attacher_node/attach")
-    attach_srv = rospy.ServiceProxy('/link_attacher_node/attach',/get_planning_scene
+    attach_srv = rospy.ServiceProxy('/link_attacher_node/attach',
                                     Attach)
     attach_srv.wait_for_service()
     rospy.loginfo("Created ServiceProxy to /link_attacher_node/attach")
