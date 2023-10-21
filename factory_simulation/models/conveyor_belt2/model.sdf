@@ -2,8 +2,9 @@
 
 <sdf version="1.4">
 
-    <model name="conveyor_belt2">
 
+    <model name="conveyor_belt2">
+	    
         <model name="conveyorbelt_fixed">
 
             <static>true</static>
@@ -86,7 +87,8 @@
                 </limit>
             </axis>
         </joint>
- 	 	<plugin name="conveyor_belt_plugin" filename="libROSConveyorBeltPlugin.so">
+	    
+ 	 <plugin name="conveyor_belt_plugin" filename="libROSConveyorBeltPlugin.so">
 			<robot_namespace>/belt2</robot_namespace>
 			<link>conveyor_belt2::conveyorbelt_moving::belt_moving</link>
 			<power>0</power>

@@ -86,6 +86,7 @@
                 </limit>
             </axis>
         </joint>
+
  	<plugin name="conveyor_belt_plugin" filename="libROSConveyorBeltPlugin.so">
 		<robot_namespace>/belt3</robot_namespace>
 		<link>conveyor_belt3::conveyorbelt_moving::belt_moving</link>
