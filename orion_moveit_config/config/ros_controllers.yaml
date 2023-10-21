@@ -91,3 +91,44 @@ orion_arm_controller:
   stop_trajectory_duration: 0.5
   state_publish_rate:  60
   action_monitor_rate: 30
+
+# /gazebo_ros_control:
+#   type: position_controllers/JointTrajectoryController
+#   joints:
+#     - J1
+#     - J2
+#     - J3
+#     - J4
+#     - J5
+#     - J6
+#   pid_gains:
+#     J1:
+#       p: 1000
+#       d: 50
+#       i: 10
+#       i_clamp: 100
+#     J2:
+#       p: 5000
+#       d: 30
+#       i: 100
+#       i_clamp: 400
+#     J3:
+#       p: 5000
+#       d: 50
+#       i: 10
+#       i_clamp: 100
+#     J4:
+#       p: 200
+#       d: 20
+#       i: 10
+#       i_clamp: 100
+#     J5:
+#       p: 100
+#       d: 10
+#       i: 0.1
+#       i_clamp: 100
+#     J6:
+#       p: 10
+#       d: 1
+#       i: 0.1
+#       i_clamp: 100

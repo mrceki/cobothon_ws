@@ -29,6 +29,14 @@
         <joint name="J5" value="1.6517"/>
         <joint name="J6" value="0"/>
     </group_state>
+    <group_state name="pick" group="orion_arm">
+        <joint name="J1" value="1.37742"/>
+        <joint name="J2" value="1.0894"/>
+        <joint name="J3" value="-1.504"/>
+        <joint name="J4" value="2.1386"/>
+        <joint name="J5" value="-1.566"/>
+        <joint name="J6" value="0"/>
+    </group_state>
     <!--VIRTUAL JOINT: Purpose: this element defines a virtual joint between a robot link and an external frame of reference (considered fixed with respect to the robot)-->
     <virtual_joint name="fixed_frame" type="fixed" parent_frame="base_link" child_link="world"/>
     <!--DISABLE COLLISIONS: By default it is assumed that any link of the robot could potentially come into collision with any other link in the robot. This tag disables collision checking between a specified pair of links. -->
