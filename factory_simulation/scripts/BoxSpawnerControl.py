@@ -19,7 +19,7 @@ class BoxSpawnerControl:
     def __init__(self):
         rospy.loginfo("BoxSpawner is initializing...")
         
-        wait_time = 8
+        wait_time = 1
         rospy.loginfo("Spawner will start in %d seconds.", wait_time)
         rospy.sleep(wait_time)
         
