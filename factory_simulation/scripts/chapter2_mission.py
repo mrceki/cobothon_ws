@@ -7,35 +7,37 @@ from geometry_msgs.msg import Pose
 import sys
 from gazebo_ros_link_attacher.srv import Attach, AttachRequest, AttachResponse
 from moveit_commander import MoveGroupCommander
-from std_msgs.msg import Float32
-from std_srvs.srv import Trigger, TriggerRequest
+from std_msgs.msg import Float32, Bool
+from std_srvs.srv import Trigger, TriggerRequest,Empty, EmptyRequest
 from gazebo_conveyor.msg import ConveyorBeltState
-
+from box_location.srv import Boxlocation
 global belt1_counter
 belt1_counter = 0
 global belt2_counter 
 belt2_counter = 0
 
-def conveyor_state_callback(msg, belt_name):
+def conveyor_state_callback(msg):
     if msg.power == 0:
-        if belt_name == "belt1":
-            rospy.loginfo("Going to belt1")
-            pick_from_belt1(belt1_pose)
+        rospy.loginfo("Going to belt1")
+        pick_from_belt1(belt1_pose)
 
-        elif belt_name == "belt2":
-            rospy.loginfo("Going to belt2")
-            pick_from_belt2(belt2_pose)
+def conveyor_state_callback2(msg):
+    if msg.power == 0:
+        rospy.loginfo("Going to belt2")
+        pick_from_belt2(belt2_pose)
 
 def pick_from_belt1(pose):
     global belt1_counter
     belt1_counter += 1
-    move_to_pose(group, pose)
-    # modified_pose = modify_pose_z_orientation(pose, -approach_retreat_offset, pick_orientation)
-    # move_to_pose(group, modified_pose)
-    attach_object(f"conv1_spawned_box_{belt1_counter}")
-    modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
-    move_to_pose(group, modified_pose)
-    move_to_place_pose()
+    if not belt2_counter == belt1_counter:
+        object_name=f"conv1_spawned_box_{belt1_counter}"
+        move_to_pose(group, pose)
+        # modified_pose = modify_pose_z_orientation(pose, -approach_retreat_offset, pick_orientation)
+        # move_to_pose(group, modified_pose)
+        attach_object(object_name)
+        modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
+        move_to_pose(group, modified_pose)
+        move_to_place_pose(object_name)
 
 def pick_from_belt2(pose):
     global belt2_counter
@@ -47,27 +49,27 @@ def pick_from_belt2(pose):
     attach_object(object_name)
     modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
     move_to_pose(group, modified_pose)
-    # move_to_place_pose()
+    move_to_place_pose(object_name)
 
 def move_to_place_pose(object_name):
     
     # Hizmet isteği (request) oluşturun
-    request = TriggerRequest()
+    request = Empty()
     # Servise istek gönderin
     response = place_pose_service(request)
-    if response.success:
-        # Hizmet başarıyla çalıştı ve bir pozisyon (pose) döndü
-        place_pose = response.pose
-        # Hedef pozisyon (place_pose) için hareketi gerçekleştirin
-        modified_pose = modify_pose_z_orientation(place_pose, z_offset, pick_orientation)
-        move_to_pose(modified_pose)
-        modified_pose = modify_pose_z_orientation(modified_pose, -approach_retreat_offset, pick_orientation)
-        move_to_pose(group, modified_pose)
-        detach_object(object_name)
-        modified_pose = modify_pose_z_orientation(modified_pose, approach_retreat_offset, pick_orientation)
-        move_to_pose(place_pose)
-    else:
-        rospy.loginfo("Failed to retrieve the place pose from the service.")
+    # Hizmet başarıyla çalıştı ve bir pozisyon (pose) döndü
+    place_pose = response.coordinant
+    print(place_pose)
+    # Hedef pozisyon (place_pose) için hareketi gerçekleştirin
+    modified_pose = modify_pose_z_orientation(place_pose, z_offset, pick_orientation)
+    move_to_pose(group, modified_pose)
+    modified_pose = modify_pose_z_orientation(modified_pose, -approach_retreat_offset, pick_orientation)
+    move_to_pose(group, modified_pose)
+    detach_object(object_name)
+    modified_pose = modify_pose_z_orientation(modified_pose, approach_retreat_offset, pick_orientation)
+    # move_to_pose(place_pose)
+    # except:
+    #     rospy.loginfo("Failed to retrieve the place pose from the service.")
 
 def modify_pose_z_orientation(pose, z_offset, orientation):
     pose.position.z += z_offset
@@ -103,7 +105,7 @@ def attach_object(object_name):#(scene, touch_link, object_name):
     req.link_name_2 = "link"
     attach_srv.call(req)
 
-def detach_object(scene, touch_link, object_name):
+def detach_object(object_name):
     # scene.remove_attached_object(touch_link, name=object_name)
     rospy.loginfo("Detaching object from gripper")
     req = AttachRequest()
@@ -132,12 +134,9 @@ if __name__ == '__main__':
     detach_srv.wait_for_service()
     rospy.loginfo("Created ServiceProxy to /link_attacher_node/detach")
 
-    # rospy.wait_for_service('/place_pose_service')
-    # place_pose_service = rospy.ServiceProxy('/place_pose_service', Trigger)
-    # MoveIt ile çalışmak için ilgili grup adını belirtin
+    rospy.wait_for_service('/box_location')
+    place_pose_service = rospy.ServiceProxy('/box_location', Boxlocation)
     group_name = "orion_arm"  # Grup adını MoveIt konfigürasyonuna göre değiştirin
-    move_group = MoveGroupCommander(group_name)
-
     belt1_pose = Pose()
     belt1_pose.orientation.x = 1.0
     belt1_pose.position.x = 0.74 
@@ -150,11 +149,11 @@ if __name__ == '__main__':
     belt2_pose.position.y = -0.35
     belt2_pose.position.z = 0.26 
 
-    rospy.Subscriber("/belt2/conveyor/state", ConveyorBeltState, conveyor_state_callback, callback_args="belt1")
-    rospy.Subscriber("/belt3/conveyor/state", ConveyorBeltState, conveyor_state_callback, callback_args="belt2")
+    rospy.Subscriber("/belt2/conveyor/state", ConveyorBeltState, conveyor_state_callback)
+    rospy.Subscriber("/belt3/conveyor/state", ConveyorBeltState, conveyor_state_callback2)
 
     robot = moveit_commander.RobotCommander()
-    group = moveit_commander.MoveGroupCommander("orion_arm")  # Kontrol grubu adınıza uygun olarak değiştirin
+    group = moveit_commander.MoveGroupCommander(group_name)  # Kontrol grubu adınıza uygun olarak değiştirin
     touch_link = "tcp_link"
     object_prefix = "unit_box"
     max_objects = 8
