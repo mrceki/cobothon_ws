@@ -26,6 +26,10 @@ sudo apt install ros-noetic-trajectory*
 sudo apt install ros-noetic-transmission*
 ```
 
+Required .yaml format:
+
+
+
 Competition Manual:
 --
 Competition manual can be found in this workspace which is called **competition_manual.pdf**
