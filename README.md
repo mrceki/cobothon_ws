@@ -7,6 +7,7 @@ This document provides instructions for running the factory simulation code. Mak
 
 ## Instructions for Chapter 1
 
+Youtube video: https://youtu.be/lysUJthXd8s
 1. Launch the factory simulation environment by executing the following command:
 
     ```
@@ -34,6 +35,46 @@ This document provides instructions for running the factory simulation code. Mak
     ```
 
 Make sure to follow the instructions carefully to ensure the proper functioning of the factory simulation.
+
+
+## Instructions for Chapter 2
+
+Youtube video: https://youtu.be/yEXCNKAHEE0
+
+1. Launch the factory simulation environment for Chapter 2 by executing the following command:
+
+    ```
+    roslaunch factory_simulation orion_sim_ch2.launch
+    ```
+
+2. In the factory_simulation package's config file, locate the `ch2.scene` file and import it from the "Scene Objects" tab under the motion planning plugin in RViz.
+
+3. If you encounter any permission issues, ensure that all scripts in the `factory_simulation` directory have the executable permission set. You can do this by running the following command:
+
+    ```
+    chmod +x <path_to_script>
+    ```
+
+4. Control the conveyor belt's laser using the following command:
+
+    ```
+    rosrun factory_simulation laserControlConveyer.py
+    ```
+
+5. Spawn boxes using the box_spawner script:
+
+    ```
+    rosrun factory_simulation box_spawner.py
+    ```
+
+6. Execute the Chapter 2 mission script using the following command:
+
+    ```
+    rosrun factory_simulation chapter2_mission.py
+    ```
+
+Make sure to follow the instructions carefully to ensure the proper functioning of the factory simulation in Chapter 2.
+
 
 ## Additional Notes
 
