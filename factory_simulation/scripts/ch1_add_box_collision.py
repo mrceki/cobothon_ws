@@ -5,7 +5,7 @@ import moveit_commander
 
 def ch1_box_spawner(scene):
 
-    config = parser_ch1('../config/box_models_links.yaml')
+    config = parser_ch1('config/box_models_links.yaml')
     box_pose = geometry_msgs.msg.PoseStamped()
     box_pose.header.frame_id = "base_link"
     for box in config:
