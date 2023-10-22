@@ -14,13 +14,13 @@ with open('/home/cenk/cobot_ws/src/cobothon_ws/box_location/config/box_patern.ya
         
     except yaml.YAMLError as exc:
         print(exc)
-sample_2d_array = structural_matrix
+data = structural_matrix
 
 referance  = [-0.8, -0.25, -0.2] 
 coordinates_arr = []
 coordinates = Pose()
 
-data = [[0, 3, 0], [1, 2, 1], [0, 1, 0]]
+# data = [[0, 3, 0], [1, 2, 1], [0, 1, 0]]
 for t in range(len(data)):
     for i in range(len(data)):
         for j in range(len(data[i])):
