@@ -81,12 +81,12 @@ orion_arm_controller:
     stopped_velocity_tolerance: 0
 
 
-    J1: {trajectory: 0.1, goal: 0.2}
-    J2: {trajectory: 0.1, goal: 0.2}
-    J3: {trajectory: 0.1, goal: 0.2}
-    J4: {trajectory: 0.1, goal: 0.2}
-    J5: {trajectory: 0.1, goal: 0.2}
-    J6: {trajectory: 0.1, goal: 0.2}
+    J1: {trajectory: 1.2, goal: 0.2}
+    J2: {trajectory: 1.2, goal: 0.2}
+    J3: {trajectory: 1.2, goal: 0.2}
+    J4: {trajectory: 1.2, goal: 0.2}
+    J5: {trajectory: 1.2, goal: 0.2}
+    J6: {trajectory: 1.2, goal: 0.2}
 
   stop_trajectory_duration: 0.5
   state_publish_rate:  60

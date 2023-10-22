@@ -16,7 +16,7 @@ with open('/home/cenk/cobot_ws/src/cobothon_ws/box_location/config/box_patern.ya
         print(exc)
 sample_2d_array = structural_matrix
 
-referance  = [-0.8, -0.25, -0.3] 
+referance  = [-0.8, -0.25, -0.2] 
 coordinates_arr = []
 coordinates = Pose()
 
@@ -26,9 +26,9 @@ for t in range(len(data)):
         for j in range(len(data[i])):
             if data[i][j] != 0:
                 coordinates = Pose()
-                coordinates.position.x = referance[0]+i*0.16
-                coordinates.position.y = referance[1]+j*0.16
-                coordinates.position.z = referance[2]+t*0.15
+                coordinates.position.x = referance[0]+i*0.17
+                coordinates.position.y = referance[1]+j*0.17
+                coordinates.position.z = referance[2]+t*0.17
                 coordinates.orientation.x = 1
                 coordinates_arr.append(coordinates)
                 data[i][j] -= 1  

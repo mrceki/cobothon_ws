@@ -34,6 +34,7 @@ def pick_from_belt1(pose):
     attach_object(object_name)
     modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
     move_to_pose(group, modified_pose)
+    modified_pose = modify_pose_z_orientation(pose, -approach_retreat_offset, pick_orientation)
     move_to_place_pose(object_name)
 
 def pick_from_belt2(pose):
@@ -44,10 +45,10 @@ def pick_from_belt2(pose):
     attach_object(object_name)
     modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
     move_to_pose(group, modified_pose)
+    modified_pose = modify_pose_z_orientation(pose, -approach_retreat_offset, pick_orientation)
     move_to_place_pose(object_name)
 
 def move_to_place_pose(object_name):
-    
     # Hizmet isteği (request) oluşturun
     request = Empty()
     # Servise istek gönderin
@@ -146,7 +147,7 @@ if __name__ == '__main__':
     touch_link = "tcp_link"
     object_prefix = "unit_box"
     max_objects = 8
-    z_offset = 0.24  # Eklemek istediğiniz z değeri
+    z_offset = 0.13  # Eklemek istediğiniz z değeri
     approach_retreat_offset= 0.15
     place_approach_offset= 0.05
     pick_orientation = geometry_msgs.msg.Quaternion(x=1, y=0, z=0, w=0)  # Yeni orientation değeri
