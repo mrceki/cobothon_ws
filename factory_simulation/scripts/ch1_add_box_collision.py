@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from yaml_parse import parser_ch1
 import geometry_msgs.msg
 import moveit_commander
