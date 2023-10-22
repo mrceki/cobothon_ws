@@ -43,7 +43,7 @@ def attach_object(scene, touch_link, object_name):
     req = AttachRequest()
     req.model_name_1 = "robot"
     req.link_name_1 = "L6"
-    req.model_name_2 = "unit_box1"#f"{object_name}"
+    req.model_name_2 = f"{object_name}"
     req.link_name_2 = "link"
     attach_srv.call(req)
 
@@ -53,7 +53,7 @@ def detacht_object(scene, touch_link, object_name):
     req = AttachRequest()
     req.model_name_1 = "robot"
     req.link_name_1 = "L6"
-    req.model_name_2 = "unit_box1" #f"{object_name}"
+    req.model_name_2 = f"{object_name}"
     req.link_name_2 = "link"
     detach_srv.call(req)
 
@@ -98,21 +98,21 @@ if __name__ == '__main__':
     robot = moveit_commander.RobotCommander()
     group = moveit_commander.MoveGroupCommander("orion_arm")  # Kontrol grubu adınıza uygun olarak değiştirin
     touch_link = "tcp_link"
-    object_prefix = "Box_"
+    object_prefix = "unit_box"
     max_objects = 8
     z_offset = 0.24  # Eklemek istediğiniz z değeri
     approach_retreat_offset= 0.16
-    place_approach_offset= 0.02
+    place_approach_offset= 0.10
     pick_orientation = geometry_msgs.msg.Quaternion(x=1, y=0, z=0, w=0)  # Yeni orientation değeri
 
     conveyor_pose = geometry_msgs.msg.Pose()
     conveyor_pose.orientation.w = -0.00276280683465302
-    conveyor_pose.orientation.x = 0.7515972852706909
+    conveyor_pose.orientation.x = 0.7515972852706909 
     conveyor_pose.orientation.y = 0.6595208644866943
     conveyor_pose.orientation.z = -0.01123037189245224
     conveyor_pose.position.x = -0.7
     conveyor_pose.position.y = 0.04
-    conveyor_pose.position.z = 0.42574710845947266
+    conveyor_pose.position.z = 0.22574710845947266
 
 
     scene = moveit_commander.PlanningSceneInterface()
@@ -122,5 +122,11 @@ if __name__ == '__main__':
         rospy.loginfo(f"Moving to pose of {object_name} with z offset and new orientation:")
         pick_object(z_offset, pick_orientation, approach_retreat_offset, scene, group, touch_link)
         place_object(conveyor_pose, place_approach_offset, pick_orientation, place_approach_offset, scene, group, touch_link)
+    group.set_named_target("home") 
+    plan = group.go(wait=True)
+    if plan:
+        rospy.loginfo("Successfully moved to home.")
+    else:
+        rospy.loginfo("Failed to plan and execute the motion.")
 
     moveit_commander.roscpp_shutdown()
