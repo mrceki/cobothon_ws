@@ -29,22 +29,17 @@ def conveyor_state_callback2(msg):
 def pick_from_belt1(pose):
     global belt1_counter
     belt1_counter += 1
-    if not belt2_counter == belt1_counter:
-        object_name=f"conv1_spawned_box_{belt1_counter}"
-        move_to_pose(group, pose)
-        # modified_pose = modify_pose_z_orientation(pose, -approach_retreat_offset, pick_orientation)
-        # move_to_pose(group, modified_pose)
-        attach_object(object_name)
-        modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
-        move_to_pose(group, modified_pose)
-        move_to_place_pose(object_name)
+    object_name=f"conv1_spawned_box_{belt1_counter}"
+    move_to_pose(group, pose)
+    attach_object(object_name)
+    modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
+    move_to_pose(group, modified_pose)
+    move_to_place_pose(object_name)
 
 def pick_from_belt2(pose):
     global belt2_counter
     belt2_counter += 1
     object_name=f"conv2_spawned_box_{belt2_counter}"
-    # move_to_pose(group, pose)
-    # modified_pose = modify_pose_z_orientation(pose, -approach_retreat_offset, pick_orientation)
     move_to_pose(group, pose)
     attach_object(object_name)
     modified_pose = modify_pose_z_orientation(pose, approach_retreat_offset, pick_orientation)
@@ -67,9 +62,6 @@ def move_to_place_pose(object_name):
     move_to_pose(group, modified_pose)
     detach_object(object_name)
     modified_pose = modify_pose_z_orientation(modified_pose, approach_retreat_offset, pick_orientation)
-    # move_to_pose(place_pose)
-    # except:
-    #     rospy.loginfo("Failed to retrieve the place pose from the service.")
 
 def modify_pose_z_orientation(pose, z_offset, orientation):
     pose.position.z += z_offset
@@ -148,24 +140,47 @@ if __name__ == '__main__':
     belt2_pose.position.x = 0.74 
     belt2_pose.position.y = -0.35
     belt2_pose.position.z = 0.26 
-
-    rospy.Subscriber("/belt2/conveyor/state", ConveyorBeltState, conveyor_state_callback)
-    rospy.Subscriber("/belt3/conveyor/state", ConveyorBeltState, conveyor_state_callback2)
-
+    
     robot = moveit_commander.RobotCommander()
     group = moveit_commander.MoveGroupCommander(group_name)  # Kontrol grubu adınıza uygun olarak değiştirin
     touch_link = "tcp_link"
     object_prefix = "unit_box"
     max_objects = 8
     z_offset = 0.24  # Eklemek istediğiniz z değeri
-    approach_retreat_offset= 0.05
+    approach_retreat_offset= 0.15
     place_approach_offset= 0.05
     pick_orientation = geometry_msgs.msg.Quaternion(x=1, y=0, z=0, w=0)  # Yeni orientation değeri
 
     scene = moveit_commander.PlanningSceneInterface()
+    msg = rospy.wait_for_message("/belt3/conveyor/state", ConveyorBeltState, timeout=rospy.Duration(20.0))
+    while not rospy.is_shutdown():
+        msg = rospy.wait_for_message("/belt3/conveyor/state", ConveyorBeltState, timeout=rospy.Duration(20.0))
+        while not msg.power == 0:
+                # print(msg.power)
+            msg = rospy.wait_for_message("/belt3/conveyor/state", ConveyorBeltState, timeout=rospy.Duration(20.0))
+        
+        rospy.loginfo("Going to belt2")
+        pick_from_belt2(belt2_pose)
+        group.set_named_target("home") 
+        plan = group.go(wait=True)
+    
+        msg2 = rospy.wait_for_message("/belt2/conveyor/state", ConveyorBeltState, timeout=rospy.Duration(20.0))
+        while not msg2.power == 0:
+            msg2 = rospy.wait_for_message("/belt2/conveyor/state", ConveyorBeltState, timeout=rospy.Duration(20.0))
+        
+        rospy.loginfo("Going to belt1")
+        pick_from_belt1(belt1_pose)
+        group.set_named_target("home") 
+        plan = group.go(wait=True)
 
 
-    group.set_named_target("home") 
+    # rospy.Subscriber("/belt2/conveyor/state", ConveyorBeltState, conveyor_state_callback)
+    # rospy.Subscriber("/belt3/conveyor/state", ConveyorBeltState, conveyor_state_callback2)
+
+
+
+
+    # group.set_named_target("home") 
     rospy.spin()
     plan = group.go(wait=True)
     if plan:
