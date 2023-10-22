@@ -1,4 +1,5 @@
-# Cobothon Robot Simulation
+# COBOT TERBİYECİLERİ - Cenk Çetin, Abdullah Türkmen, Uğur Özgür Yıldız
+# Cobothon Challenge Entry
 
 This repo has Orion 5 robot and control simulation in the gazebo factory environment. It was created for the Mcfly Cobothon competition.
 
