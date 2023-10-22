@@ -5,10 +5,9 @@ import moveit_commander
 import geometry_msgs.msg
 from geometry_msgs.msg import Pose
 import sys
-from gazebo_ros_link_attacher.srv import Attach, AttachRequest, AttachResponse
+from gazebo_ros_link_attacher.srv import Attach, AttachRequest
 from moveit_commander import MoveGroupCommander
-from std_msgs.msg import Float32, Bool
-from std_srvs.srv import Trigger, TriggerRequest,Empty, EmptyRequest
+from std_srvs.srv import Empty
 from gazebo_conveyor.msg import ConveyorBeltState
 from box_location.srv import Boxlocation
 global belt1_counter
@@ -27,6 +26,14 @@ def conveyor_state_callback2(msg):
         pick_from_belt2(belt2_pose)
 
 def pick_from_belt1(pose):
+    """
+    The function `pick_from_belt1` picks an object from a conveyor belt and moves it to a specified
+    pose.
+    
+    :param pose: The "pose" parameter represents the desired position and orientation of the end
+    effector (robotic arm) in 3D space. It is used to specify where the arm should move to in order to
+    pick up an object from a specific location on a conveyor belt
+    """
     global belt1_counter
     belt1_counter += 1
     object_name=f"conv1_spawned_box_{belt1_counter}"
@@ -38,6 +45,13 @@ def pick_from_belt1(pose):
     move_to_place_pose(object_name)
 
 def pick_from_belt2(pose):
+    """
+    The function `pick_from_belt2` picks an object from a conveyor belt and moves it to a specified
+    pose.
+    
+    :param pose: The "pose" parameter is the desired pose (position and orientation) of the object that
+    you want to pick from the belt
+    """
     global belt2_counter
     belt2_counter += 1
     object_name=f"conv2_spawned_box_{belt2_counter}"
@@ -49,6 +63,13 @@ def pick_from_belt2(pose):
     move_to_place_pose(object_name)
 
 def move_to_place_pose(object_name):
+    """
+    The function `move_to_place_pose` moves an object to a specified position and performs a series of
+    actions.
+    
+    :param object_name: The parameter "object_name" represents the name of the object that you want to
+    move to a specific place pose
+    """
     # Hizmet isteği (request) oluşturun
     request = Empty()
     # Servise istek gönderin
@@ -65,6 +86,17 @@ def move_to_place_pose(object_name):
     modified_pose = modify_pose_z_orientation(modified_pose, approach_retreat_offset, pick_orientation)
 
 def modify_pose_z_orientation(pose, z_offset, orientation):
+    """
+    The function modifies the z position and orientation of a given pose.
+    
+    :param pose: The pose parameter is an object that represents the position and orientation of an
+    object in 3D space. It typically contains the following attributes:
+    :param z_offset: The z_offset parameter is the amount by which the z-coordinate of the pose's
+    position should be modified
+    :param orientation: The orientation parameter is a quaternion representing the rotation of the pose.
+    It consists of four components: x, y, z, and w
+    :return: the modified pose object.
+    """
     pose.position.z += z_offset
     pose.orientation.x = orientation.x
     pose.orientation.y = orientation.y
@@ -73,6 +105,17 @@ def modify_pose_z_orientation(pose, z_offset, orientation):
     return pose
 
 def move_to_pose(group, pose):
+    """
+    The function `move_to_pose` sets a target pose for a robot arm group and executes the motion to move
+    the arm to that pose.
+    
+    :param group: The "group" parameter refers to the MoveGroupCommander object that is used to control
+    the robot arm. It provides functions for planning and executing motions
+    :param pose: The "pose" parameter is the desired pose that the robot arm should move to. It is
+    typically represented as a 6-dimensional vector, specifying the position and orientation of the end
+    effector of the robot arm. The exact format of the pose depends on the specific robot arm and its
+    kinematics
+    """
     group.set_pose_target(pose)
     plan = group.go(wait=True)
     if plan:
@@ -81,6 +124,16 @@ def move_to_pose(group, pose):
         rospy.loginfo("Failed to plan and execute the motion.")
 
 def approach_to_object(group, pose):
+    """
+    The function `approach_to_object` sets the pose target for a robot arm group and executes the motion
+    plan to move the arm to that pose.
+    
+    :param group: The "group" parameter is an object representing a group of joints or links in a robot.
+    It is typically used to control the motion of the robot's arm or end effector
+    :param pose: The "pose" parameter is the desired pose or position that you want the robot's end
+    effector to move to. It is typically represented as a 6-dimensional vector, specifying the position
+    and orientation of the end effector in 3D space. The specific format of the pose depends on the
+    """
     group.set_pose_target(pose)
     plan = group.go(wait=True)
     if plan:
@@ -89,6 +142,12 @@ def approach_to_object(group, pose):
         rospy.loginfo("Failed to plan and execute the motion.")
 
 def attach_object(object_name):#(scene, touch_link, object_name):
+    """
+    The function `attach_object` attaches an object to a gripper in a scene.
+    
+    :param object_name: The object_name parameter is the name of the object that you want to attach to
+    the gripper
+    """
     # scene.attach_box("tcp_link", object_name)
     rospy.loginfo("Attaching object to gripper")
     req = AttachRequest()
@@ -99,6 +158,12 @@ def attach_object(object_name):#(scene, touch_link, object_name):
     attach_srv.call(req)
 
 def detach_object(object_name):
+    """
+    The function `detach_object` detaches an object from a gripper in a robotic scene.
+    
+    :param object_name: The `object_name` parameter is the name of the object that you want to detach
+    from the gripper
+    """
     # scene.remove_attached_object(touch_link, name=object_name)
     rospy.loginfo("Detaching object from gripper")
     req = AttachRequest()
@@ -109,9 +174,23 @@ def detach_object(object_name):
     detach_srv.call(req)
 
 def remove_object_from_scene(scene, object_name):
+    """
+    The function removes an object from a scene.
+    
+    :param scene: The scene parameter is an object that represents the current scene or environment in
+    which objects are placed. It could be a 3D scene, a virtual environment, or any other context where
+    objects can be added or removed
+    :param object_name: The name of the object you want to remove from the scene
+    """
     scene.remove_world_object(object_name)
 
 
+# The above code is a Python script that initializes a ROS node, creates service proxies for attaching
+# and detaching objects, waits for a service to get the location of a box, defines poses for two
+# belts, initializes a robot commander and move group commander, sets parameters for object
+# manipulation, creates a planning scene interface, and then enters a loop. Within the loop, it waits
+# for a message from a conveyor belt state topic, checks if the power is 0, and then performs actions
+# based on the belt state. It picks an object from belt 2, moves to a home position, waits for the
 if __name__ == '__main__':
     rospy.init_node('move_to_object_poses', anonymous=True)
     moveit_commander.roscpp_initialize(sys.argv)
@@ -182,11 +261,11 @@ if __name__ == '__main__':
 
 
     # group.set_named_target("home") 
-    rospy.spin()
-    plan = group.go(wait=True)
-    if plan:
-        rospy.loginfo("Successfully moved to home.")
-    else:
-        rospy.loginfo("Failed to plan and execute the motion.")
+    # rospy.spin()
+    # plan = group.go(wait=True)
+    # if plan:
+    #     rospy.loginfo("Successfully moved to home.")
+    # else:
+    #     rospy.loginfo("Failed to plan and execute the motion.")
 
-    moveit_commander.roscpp_shutdown()
+    # moveit_commander.roscpp_shutdown()
