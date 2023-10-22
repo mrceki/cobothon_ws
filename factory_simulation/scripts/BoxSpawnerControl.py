@@ -19,20 +19,20 @@ class BoxSpawnerControl:
     def __init__(self):
         rospy.loginfo("BoxSpawner is initializing...")
         
-        wait_time = 8
+        wait_time = 1
         rospy.loginfo("Spawner will start in %d seconds.", wait_time)
         rospy.sleep(wait_time)
         
         # creating spawners
         spawn_count = rospy.get_param('conveyor_2/spawn_count', default=9)
         spawn_interval = rospy.get_param('conveyor_2/spawn_interval', default=20)
-        box_location = rospy.get_param('conveyor_2/spawn_box_location', default=[0, 0.13, 0.9])
+        box_location = rospy.get_param('conveyor_2/spawn_box_location', default=[0, 0.13, 0.5])
         self.conv2_spawner = BoxSpawner(spawn_count, spawn_interval, box_location)
         self.conv2_timer = rospy.Timer(rospy.Duration(spawn_interval), self.conv2_callback)
         
         spawn_count = rospy.get_param('conveyor_3/spawn_count', default=9)
         spawn_interval = rospy.get_param('conveyor_3/spawn_interval', default=20)
-        box_location = rospy.get_param('conveyor_3/spawn_box_location', default=[0, -0.36, 0.9])
+        box_location = rospy.get_param('conveyor_3/spawn_box_location', default=[0, -0.36, 0.5])
         self.conv3_spawner = BoxSpawner(spawn_count, spawn_interval, box_location)
         self.conv3_timer = rospy.Timer(rospy.Duration(spawn_interval), self.conv3_callback)
         
@@ -95,13 +95,13 @@ class BoxSpawnerControl:
     def init_spawning(self):
         rospy.loginfo("Spawn process initializing...")
         
-        self.conv2_spawner.box_model_name = "conv2_spawned_box_"
+        self.conv2_spawner.box_model_name = "conv1_spawned_box_"
         rospy.loginfo("%d box will be spawned with %s name in every %d seconds", 
                       self.conv2_spawner.spawn_count, self.conv2_spawner.box_model_name, self.conv2_spawner.spawn_interval)
         
         self.conv2_spawn_counter = 1
         
-        self.conv3_spawner.box_model_name = "conv3_spawned_box_"
+        self.conv3_spawner.box_model_name = "conv2_spawned_box_"
         rospy.loginfo("%d box will be spawned with %s name in every %d seconds", 
                       self.conv3_spawner.spawn_count, self.conv3_spawner.box_model_name, self.conv3_spawner.spawn_interval)
         

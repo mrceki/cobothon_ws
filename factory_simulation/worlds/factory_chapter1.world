@@ -2257,13 +2257,13 @@
 
     <include>
       <name>conveyor_belt1</name>
-      <pose>-2.25 -0.35 0 0 0 -3.14</pose>
+      <pose>-2.25 -0.35 -0.3 0 0 -3.14</pose>
       <uri>model://conveyor_belt1</uri>
     </include>
 
     <include>
       <name>conveyor_belt2</name>
-      <pose>-0.4 0.14 0 0 0 1.57</pose>
+      <pose>-0.4 0.14 -0.3 0 0 1.57</pose>
       <uri>model://conveyor_belt2</uri>
     </include>
 

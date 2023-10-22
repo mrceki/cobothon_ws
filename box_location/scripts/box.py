@@ -7,7 +7,7 @@ import yaml
 import numpy as np
 
 # YAML dosyasını açma
-with open('src/box_location/config/box_patern.yaml', 'r') as file:
+with open('/home/cenk/cobot_ws/src/cobothon_ws/box_location/config/box_patern.yaml', 'r') as file:
     try:
         data = yaml.safe_load(file)
         structural_matrix = data['chapter_2']['structural_matrix']
@@ -16,21 +16,21 @@ with open('src/box_location/config/box_patern.yaml', 'r') as file:
         print(exc)
 sample_2d_array = structural_matrix
 
-referance  = [-1.36, 0.5, 0.218] 
-coordinant_arr = []
-coordinant = Pose()
+referance  = [-0.8, -0.25, -0.3] 
+coordinates_arr = []
+coordinates = Pose()
 
 data = [[0, 3, 0], [1, 2, 1], [0, 1, 0]]
 for t in range(len(data)):
     for i in range(len(data)):
         for j in range(len(data[i])):
             if data[i][j] != 0:
-                coordinant = Pose()
-                coordinant.position.x = referance[0]+i*0.16
-                coordinant.position.y = referance[1]+j*0.16
-                coordinant.position.z = referance[2]+t*0.15
-                coordinant.orientation.x = 1
-                coordinant_arr.append(coordinant)
+                coordinates = Pose()
+                coordinates.position.x = referance[0]+i*0.16
+                coordinates.position.y = referance[1]+j*0.16
+                coordinates.position.z = referance[2]+t*0.15
+                coordinates.orientation.x = 1
+                coordinates_arr.append(coordinates)
                 data[i][j] -= 1  
 
         
@@ -42,8 +42,8 @@ def handle_request(req):
     global i
     i +=1
 
-    print(coordinant_arr[i-1])
-    return coordinant_arr[i-1]
+    print(coordinates_arr[i-1])
+    return coordinates_arr[i-1]
     
     
 
